@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {ObjectInspector, TableInspector} from 'react-inspector';
 import Scroll from 'react-scroll';
 import sha1 from 'sha1';
 import io from 'socket.io-client'
@@ -33,22 +32,22 @@ class App extends Component {
     // socket.on('connect', () => this.setState({socket_id: socket.id}));
     let inter = setInterval(() => {
       this.pushLog(Object.assign({}, o));
-      if (this.state.logs[0].count == 6) {
+      if (this.state.logs[0].count === 6) {
         o.title = "aaaaaaaaaaaa bbbbbb";
       } 
-      if (this.state.logs[1] && this.state.logs[1].count == 3) {
+      if (this.state.logs[1] && this.state.logs[1].count === 3) {
         o.title = "aaaaaaaaaaaa cccccc";
       } 
-      if (this.state.logs[2] && this.state.logs[2].count == 4) {
+      if (this.state.logs[2] && this.state.logs[2].count === 4) {
         o.title = "aaaaaaaaaaaa ddddddd";
       } 
-      if (this.state.logs[3] && this.state.logs[3].count == 5) {
+      if (this.state.logs[3] && this.state.logs[3].count === 5) {
         o.title = "aaaaaaaaaaaa eeeeeee";
       }
-      if (this.state.logs[4] && this.state.logs[4].count == 2) {
+      if (this.state.logs[4] && this.state.logs[4].count === 2) {
         o.title = "aaaaaaaaaaaa ffffff";
       } 
-      if (this.state.logs[5] && this.state.logs[5].count == 2) {
+      if (this.state.logs[5] && this.state.logs[5].count === 2) {
         o.title = "ae ae ae ae ooooooooooo";
         o.obj = [{id: 1, name: 'aaa'}, {id: 2, name: 'bbb'}];
       }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+
 import {ObjectInspector, TableInspector} from 'react-inspector';
 import FaExpanded from 'react-icons/lib/fa/chevron-circle-down';
 import sqlFormatter from "sql-formatter";
@@ -6,7 +8,12 @@ import SyntaxHighlighter, { registerLanguage } from "react-syntax-highlighter/di
 import langsql from 'highlight.js/lib/languages/sql';
 import colorvs from 'react-syntax-highlighter/dist/styles/vs'; 
 
-import DivInspect from './Inspect.styled'
+import copy from './copyText';
+import MdCopy from 'react-icons/lib/md/content-copy';
+import MdBookmarkOff from 'react-icons/lib/md/bookmark-outline';
+import MdBookmarkOn from 'react-icons/lib/md/bookmark';
+
+import {Inspector, BookMark} from './Inspect.styled'
 
 registerLanguage('sql', langsql);
 
@@ -31,27 +38,60 @@ const ObjInspect = (obj) => {
   }
 }
 
+let IconBookMark = (props) =>
+  props.show > 0
+    ? <MdBookmarkOn /> 
+    : <MdBookmarkOff />
+
 class Inspect extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapsed: props.data.collapsed
+      collapsed: props.data.collapsed,
+      level: 0
     }
   }
   render() {
     let { count, title, obj, collapsed } = this.props.data;
     return (
       <div>
-        <DivInspect collapsed={collapsed}>
+        <Inspector collapsed={collapsed}>
           <hr />
           <h2 onClick={(e) => this.props.click(e) }>
-            <span className="count">{count}</span> {title || "Log"}
+            <span className="count">{count}</span> 
+            <BookMark 
+              className={`level-${this.state.level}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                this.state.level < 5 
+                  ? this.setState({level: this.state.level + 1}) 
+                  : this.setState({level: 0})}
+              }>
+              <IconBookMark show={this.state.level}/>
+            </BookMark>
+            {title || "Log"}
             {collapsed ? <FaExpanded/> : "" }
+            <span 
+              className="copy"
+              title="copy title"
+              onClick={(e) => {e.stopPropagation(); copy(title || "Log")}}>
+              <MdCopy/>
+            </span>
+            <span 
+              className="copy"
+              title="copy content"
+              onClick={(e) => {
+                e.stopPropagation(); 
+                let domNode = ReactDOM.findDOMNode(this);
+                copy(domNode.querySelector('.log-item').innerText)
+                }}>
+              <MdCopy/>
+            </span>
           </h2>
           <div className="log-item">
             {ObjInspect(obj)}
           </div>
-        </DivInspect>
+        </Inspector>
       </div>
     )
   }
