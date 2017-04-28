@@ -14,8 +14,8 @@ import ToggleButton from 'react-toggle-button'
 const scroll = Scroll.animateScroll;
 let socket_id = undefined;
 
-// const socket = io();
-let o = {title: "ae ae ae ae ooooooooooo", obj: { id: 1, name : "braca", age: "-41" }}
+const socket = io();
+// let o = {title: "ae ae ae ae ooooooooooo", obj: { id: 1, name : "braca", age: "-41" }}
 
 class App extends Component {
   constructor(props) {
@@ -29,9 +29,9 @@ class App extends Component {
       confirmClear: false,
       timeoutConfirmClear: undefined
     }
-    // socket.on('logflow', (data) => this.pushLog(data));
-    // socket.on('connect', () => this.setState({socket_id: socket.id}));
-    let inter = setInterval(() => {
+    socket.on('logflow', (data) => this.pushLog(data));
+    socket.on('connect', () => this.setState({socket_id: socket.id}));
+    /*let inter = setInterval(() => {
       this.pushLog(Object.assign({}, o));
       if (this.state.logs[0].count === 6) {
         o.title = "aaaaaaaaaaaa bbbbbb";
@@ -61,7 +61,7 @@ class App extends Component {
       if (this.state.logs.length > 7) {
         clearInterval(inter);
       }
-    }, 100);
+    }, 100);*/
   }
 
   setTitleList() {

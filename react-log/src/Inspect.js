@@ -47,8 +47,8 @@ let CopyContent = (props) => {
     title="copy content"
     onClick={(e) => {
       e.stopPropagation(); 
-
-      if (lang) {
+      
+      if (lang === "sql") {
         let node = ReactDOM.findDOMNode(domNode);
         copy(node.querySelector('.log-item').innerText);
       } 

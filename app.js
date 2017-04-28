@@ -18,6 +18,10 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/react-log/build/index.html');
 });
 
+app.get('/remotelog.ts', function(req, res) {
+  res.sendfile(__dirname + '/remoteLog.ts');
+});
+
 app.get('/log', function (req, res) {
   _socket && _socket.emit('logflow', { datetime: new Date() });
   res.sendStatus(200);
