@@ -38,6 +38,8 @@ const Titles = styled.div`
   visibility: ${props => props.titles_show ? 'visible' : 'hidden' };
   width: ${props => `calc(100vw - 15vw - ${(props.length_socket_id * 8) + 45}px)`};
   z-index: 0;
+  max-height: calc(100vh - 60px);
+  overflow: auto;
   ul {
     list-style-type: none;
     margin: 0;
