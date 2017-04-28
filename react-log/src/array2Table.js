@@ -1,18 +1,24 @@
 export default function array2Table(arr) {
     //default column size (unique)
-    var colSize = arr.map(x => Object.keys(x)).join().split(',')
+    var colSize = arr.map(x => Object.keys(x).join('■')).join('■').split('■')
                     .filter((v, i, a) => a.indexOf(v) === i)
                     .map(x => x.toString().length)
 
     //column names (unique)
-    var colName = arr.map(x => Object.keys(x)).join().split(',')
+    var colName = arr.map(x => Object.keys(x).join('■')).join('■').split('■')
                     .filter((v, i, a) => a.indexOf(v) === i)
                     .map(x => x.toString())
+
+    //inline strings
+    arr.map(x => Object.values(x).map((v, i) => {
+        let c = colName[i];
+        x[c] = typeof(v) === "string" ? v.replace(/\r|\n|\s+/g, " ").trim() : v
+    }))
 
     //biggest length value
     //gambi? pode ter um jeito melhor, mas assim é mais simples.
     arr.map(x => Object.values(x).map((v, i) => {
-      colSize[i] < v.toString().length
+      colSize[i] < (v ? v.toString().length : -1)
         ? colSize[i] = v.toString().length
         : colSize[i]
     }))

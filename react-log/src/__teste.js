@@ -1,6 +1,6 @@
 var arr = [{
     id: 1,
-    name: "aaaaaaaa",
+    name: "aaaaaaaa \n\r asdfasdfas            dfasdf",
     adfafefefefe: "asdf"
 }, {
     id: 2,
@@ -13,21 +13,37 @@ var arr = [{
 }]
 
 //default column size (unique)
-var colSize = arr.map(x => Object.keys(x)).join().split(',')
-   .filter((v, i, a) => a.indexOf(v) === i)
-   .map(x => x.toString().length)
+var colSize = arr.map(x => Object.keys(x).join('■')).join('■').split('■')
+                    .filter((v, i, a) => a.indexOf(v) === i)
+                    .map(x => x.toString().length)
 
 //column names (unique)
-var colName = arr.map(x => Object.keys(x)).join().split(',')
-   .filter((v, i, a) => a.indexOf(v) === i)
-   .map(x => x.toString())
+var colName = arr.map(x => Object.keys(x).join('■')).join('■').split('■')
+                    .filter((v, i, a) => a.indexOf(v) === i)
+                    .map(x => x.toString())
+
+// arr = arr.map(x => Object.values(x).map((v, i) => {
+//     let c = colName[i];
+//     x = {c:  typeof(v) === "string" ? v.replace(/\r|\n|\s+/g, " ") : v};
+// }))
+
+console.table(
+arr.map(x => Object.values(x).map((v, i) => {
+    let c = colName[i];
+	// console.log("C", c)
+    // console.log("X", x)
+    x[c] = typeof(v) === "string" ? v.replace(/\r|\n|\s+/g, " ") : v;
+    console.log("A", x)
+    // console.log("Aa", x[c])
+}))
+)
 
 //biggest length value
 arr.map(x => Object.values(x).map((v, i) => {
-    colSize[i] < v.toString().length
+      colSize[i] < (v ? v.toString().length : -1)
         ? colSize[i] = v.toString().length
         : colSize[i]
-}))
+    }))
 
 //one big string
 
