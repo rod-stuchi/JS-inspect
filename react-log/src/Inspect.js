@@ -19,16 +19,16 @@ import {Inspector, BookMark} from './Inspect.styled'
 registerLanguage('sql', langsql);
 
 const ObjInspect = (obj, lang) => {
-  if (Array.isArray(obj)) {
-    return <TableInspector data={obj} />
-
-  } else if (lang === "sql") {
+  if (lang === "sql") {
     let sql = Array.isArray(obj) 
               ? obj.map(x => sqlFormatter.format(x, {indent: "    "})).join("----")
               : sqlFormatter.format(obj, {indent: "    "});
 
     sql = sql.replace(/----/g, "\n---------------------------------------------\n");
     return <SyntaxHighlighter style={colorvs} language='sql'>{sql}</SyntaxHighlighter>
+
+  } else if (Array.isArray(obj)) {
+    return <TableInspector data={obj} />
 
   } else if (typeof(obj) === "string") {
     return <pre className="print-string">{obj}</pre>
