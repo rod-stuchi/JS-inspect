@@ -9,7 +9,7 @@ import {Frame, ClearAll, ConfirmClear} from './App.styled';
 import FaList from 'react-icons/lib/fa/list-ul';
 import FaCheckAll from 'react-icons/lib/fa/check-square';
 import FaEraser from 'react-icons/lib/fa/eraser';
-
+import ToggleButton from 'react-toggle-button'
 
 const scroll = Scroll.animateScroll;
 let socket_id = undefined;
@@ -21,6 +21,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      collapsed: true,
       titles_list: [],
       titles_show: false,
       socket_id: 'socket_id',
@@ -51,14 +52,19 @@ class App extends Component {
         o.title = "ae ae ae ae ooooooooooo";
         o.obj = [{id: 1, name: 'aaa'}, {id: 2, name: 'bbb'}];
       }
+      if (this.state.logs[6] && this.state.logs[6].count === 4) {
+        o.title = "teste SQL";
+        o.obj = "select * from ABC where id > 3";
+        o.lang = "sql";
+      }
 
-      if (this.state.logs.length > 6) {
+      if (this.state.logs.length > 7) {
         clearInterval(inter);
       }
     }, 100);
   }
 
-  setTitleList(clear) {
+  setTitleList() {
     let title_list = this.state.logs
       .map(x => x.title)
       .reduce((acc, x) => {
@@ -67,13 +73,10 @@ class App extends Component {
             acc[i].count += 1;
             return [...acc];
         } else {
-            return [...acc, {title: x, count: 1, checked: false}]
+            return [...acc, {title: x, count: 1, checked: this.state.collapsed}]
         }
       }, []);
-
-      clear
-        ? this.setState({titles_list: []})
-        : this.setState({titles_list: title_list});
+      this.setState({titles_list: title_list});
   }
 
   pushLog(data) {
@@ -91,7 +94,7 @@ class App extends Component {
 
         this.setState({logs: [...this.state.logs, last]});
       } else {
-        data.collapsed = false;
+        data.collapsed = this.state.collapsed;
         data.count = 1;
         this.setState({logs: [...this.state.logs, data]});
       }
@@ -194,7 +197,26 @@ class App extends Component {
               <ConfirmClear
                 show={this.state.confirmClear}
                 onClick={() => this.handleClear()}>
-                Yes</ConfirmClear>
+                Yes
+              </ConfirmClear>
+              <li className="none">
+                <label>
+                      <div>
+                        Expanded
+                      </div>
+                      <div>
+                        <ToggleButton
+                          colors={{
+                            active: { base: 'rgb(18, 117, 9)' }
+                          }}
+                          value={ !this.state.collapsed || false }
+                          onToggle={(value) => 
+                            this.setState({ collapsed: !this.state.collapsed })
+                          }
+                        />
+                      </div>
+                  </label>
+              </li>
             </ul>
           </div>
         </div>

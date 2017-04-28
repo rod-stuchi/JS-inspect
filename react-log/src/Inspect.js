@@ -12,19 +12,20 @@ import copy from './copyText';
 import MdCopy from 'react-icons/lib/md/content-copy';
 import MdBookmarkOff from 'react-icons/lib/md/bookmark-outline';
 import MdBookmarkOn from 'react-icons/lib/md/bookmark';
+import Array2Table from './array2Table';
 
 import {Inspector, BookMark} from './Inspect.styled'
 
 registerLanguage('sql', langsql);
 
-const ObjInspect = (obj) => {
+const ObjInspect = (obj, lang) => {
   if (Array.isArray(obj)) {
     return <TableInspector data={obj} />
 
-  } else if (obj["lang"] && obj["lang"] === "sql") {
-    let sql = Array.isArray(obj.code) 
-              ? obj.code.map(x => sqlFormatter.format(x, {indent: "    "})).join("----")
-              : sqlFormatter.format(obj.code, {indent: "    "});
+  } else if (lang === "sql") {
+    let sql = Array.isArray(obj) 
+              ? obj.map(x => sqlFormatter.format(x, {indent: "    "})).join("----")
+              : sqlFormatter.format(obj, {indent: "    "});
 
     sql = sql.replace(/----/g, "\n---------------------------------------------\n");
     return <SyntaxHighlighter style={colorvs} language='sql'>{sql}</SyntaxHighlighter>
@@ -36,6 +37,34 @@ const ObjInspect = (obj) => {
     return <ObjectInspector data={obj} expandLevel={3}/>
 
   }
+}
+
+let CopyContent = (props) => {
+  let {lang, obj, domNode} = props;
+  return (
+  <span 
+    className="copy"
+    title="copy content"
+    onClick={(e) => {
+      e.stopPropagation(); 
+
+      if (lang) {
+        let node = ReactDOM.findDOMNode(domNode);
+        copy(node.querySelector('.log-item').innerText);
+      } 
+      else if (Array.isArray(obj)) {
+        copy(Array2Table(obj));
+      }
+      else if (typeof(obj) === "string") {
+        copy(obj);
+      }
+      else {
+        copy(JSON.stringify(obj, null, 2));
+      }
+
+      }}>
+    <MdCopy/>
+  </span> )
 }
 
 let IconBookMark = (props) =>
@@ -52,7 +81,7 @@ class Inspect extends Component {
     }
   }
   render() {
-    let { count, title, obj, collapsed } = this.props.data;
+    let { count, title, obj, lang, collapsed } = this.props.data;
     return (
       <div>
         <Inspector collapsed={collapsed}>
@@ -77,19 +106,10 @@ class Inspect extends Component {
               onClick={(e) => {e.stopPropagation(); copy(title || "Log")}}>
               <MdCopy/>
             </span>
-            <span 
-              className="copy"
-              title="copy content"
-              onClick={(e) => {
-                e.stopPropagation(); 
-                let domNode = ReactDOM.findDOMNode(this);
-                copy(domNode.querySelector('.log-item').innerText)
-                }}>
-              <MdCopy/>
-            </span>
+            <CopyContent obj={obj} lang={lang} domNode={this}/>
           </h2>
           <div className="log-item">
-            {ObjInspect(obj)}
+            {ObjInspect(obj, lang)}
           </div>
         </Inspector>
       </div>

@@ -14,11 +14,13 @@ const Frame = styled.div`
     ${block}
     font-size: 150%;
     color: #127509;
+    user-select: none;
     > img {
       border-radius: 0 0 10px 10px;
     }
     &:hover {
       color: #19aa0b;
+      cursor: default;
     }
     > span {
       position: relative;
@@ -49,14 +51,14 @@ const Frame = styled.div`
     position: fixed;
     top: calc(100vh - 35px);
     width: calc(100%);
-    div:nth-child(1) {
+    > div:nth-child(1) {
       /* flex start */
       order: 0;
       flex: 0 1 auto !important;
       align-self: auto;
       /* flex end */
 
-      >.socketid {
+      > .socketid {
         background: white;
         color: red;
         cursor: pointer;
@@ -69,7 +71,7 @@ const Frame = styled.div`
         }
       }
     }
-    div:nth-child(2) {
+    > div:nth-child(2) {
       /* flex start */
       order: 0;
       flex: 1 1 auto;
@@ -79,7 +81,7 @@ const Frame = styled.div`
       height: 35px;
       z-index: 100;
       padding:0 15px;
-      ul.group-title {
+      > ul.group-title {
         margin: 0;
         padding: 0;
         list-style-type: none;
@@ -107,6 +109,17 @@ const Frame = styled.div`
           }
           &:active {
             box-shadow: -1px -1px 6px 0px rgba(0,0,0,0.75);
+          }
+        }
+        > li.none {
+          background: none;
+          box-shadow: none;
+          margin: 0;
+          > label {
+            div {
+              display: table-cell;
+              margin: 0 3px;
+            }
           }
         }
       }
@@ -140,7 +153,7 @@ const ClearAll = styled.li`
 const ConfirmClear = styled.li`
   color: red;
   margin-left: -3px !important;
-  visibility: ${ props => props.show ? 'visible': 'hidden' };
+  display: ${ props => props.show ? 'inline-block !important;': 'none !important;' };
 `;
 
 export {Frame, ClearAll, ConfirmClear }

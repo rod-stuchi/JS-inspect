@@ -33,8 +33,12 @@ function remoteLog(obj: any, title: string = "", sql: boolean = false) : boolean
     } else {
         post_item = {socket_id: socket_id
                     ,title    : title
-                    ,obj      : sql ? { lang: "sql", code: obj } : obj
+                    ,obj      : obj
                     }
+        
+        if (sql) {
+            post_item = Object.assign({}, post_item, {lang: "sql"});
+        }
     }
 
     try {

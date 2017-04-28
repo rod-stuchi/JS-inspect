@@ -52,7 +52,8 @@ const Titles = styled.div`
       cursor: pointer;
       user-select: none;
       &:hover {
-        background: #009607;
+        //background: #009607;
+        background: rgb(18, 117, 9);
         color: white;
       }
     }

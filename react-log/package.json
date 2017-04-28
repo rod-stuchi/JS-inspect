@@ -9,6 +9,7 @@
     "react-inspector": "^1.1.2",
     "react-scroll": "^1.5.2",
     "react-syntax-highlighter": "^5.3.0",
+    "react-toggle-button": "^2.1.0",
     "sha1": "^1.1.1",
     "sql-formatter": "^1.2.0",
     "styled-components": "^1.4.5"
