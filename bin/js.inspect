@@ -1,0 +1,118 @@
+#! /usr/bin/env node
+
+const path = require('path');
+const chalk = require('chalk');
+const log = console.log;
+var express = require('express');
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+var bodyParser = require('body-parser')
+
+const greenB = chalk.bold.green;
+const cyanU = chalk.underline.cyan;
+const gray = chalk.gray;
+const redB = chalk.bold.red;
+const yellowB = chalk.bold.yellow;
+
+let sockets = [];
+let users = [];
+
+app.use(bodyParser.json())
+app.use('/', express.static(path.join(__dirname, '/build')));
+
+// --------------- start express ---------------
+server.listen(8080, () => {
+  log(greenB(" JS.inspect") + " running...")
+  log(" go to " + cyanU("http://localhost:8080"));
+  log(gray(" <CTRL+C> to exit\n"));
+});
+
+// --------------- static ---------------
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + 'build/index.html');
+});
+
+app.get('/remotelog.ts', function(req, res) {
+  res.sendfile(__dirname + '/remoteLog.ts');
+});
+
+// --------------- rest api ---------------
+app.post('/inspect', function (req, res) {
+  log('/inspect', [req.body.user_name, req.body.socket_id, req.body.title]);
+  let user = users.filter(f => 
+       f.user_name === req.body.user_name 
+    || f.socket_id === req.body.socket_id
+  );
+  
+  if (user.length) {
+    io.to(user[0].socket_id).emit('inspect', req.body);
+  }
+  res.sendStatus(200);
+});
+
+app.post('/setuser', function (req, res) {
+  log('/setuser', [req.body.socket_id, req.body.user_name]);
+  let user = {
+    socket_id: req.body.socket_id, 
+    user_name: req.body.user_name
+  };
+
+ if (users.some(s => s.user_name === user.user_name)) {
+    res.status(403).send({error: `the user: '${user.user_name}' is already in use.`})
+  } else {
+    let uidx = users.findIndex(f => f.socket_id === user.socket_id);
+    if (uidx >= 0) {
+      users.splice(uidx, 1);
+    }
+
+    users.push(user)
+    res.sendStatus(200);
+  }
+
+  console.log(users);
+});
+
+// --------------- socket ---------------
+io.on('connection', function (socket) {
+  log(greenB(' ✚ ') + socket.conn.id + "\n");
+  sockets.push(socket);
+  log(yellowB(' ❴ ') + sockets.map(x => x.conn.id).join(',\n   ') + yellowB(' ❵\n'));
+  
+  io.sockets.emit('count', {
+    user_count: sockets.length
+  });
+
+  socket.on('disconnect', function () {
+    let idx = sockets.indexOf(socket);
+    if (idx >= 0) {
+      sockets.splice(idx, 1);
+    }
+
+    log(users);
+    let uidx = users.findIndex(f => f.socket_id === socket.conn.id);
+    if (uidx >= 0) {
+      users.splice(uidx, 1);
+    }
+    log(users);
+
+    log(gray(' ✘ ') + socket.conn.id + "\n");
+    log(yellowB(' ❴ ') + sockets.map(x => x.conn.id).join(',\n   ') + yellowB(' ❵\n'));
+    io.sockets.emit('count', {
+      user_count: sockets.length
+    });
+  });
+});
+
+// --------------- node ---------------
+process.on('uncaughtException', (e) => {
+  switch (e.code) {
+    case 'EADDRINUSE':
+      log(redB(" Port 8080 is already in use."))
+      log(gray(" kill node process that is holding it"))
+      break;
+    default:
+      log(redB(" ERROR:: \n"), e);
+      break;
+  }
+})

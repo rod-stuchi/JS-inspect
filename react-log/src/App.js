@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DialogHowToUse from './Dialog-HowToUse';
 import Scroll from 'react-scroll';
 import sha1 from 'sha1';
 import io from 'socket.io-client'
@@ -9,6 +10,9 @@ import {Frame, ClearAll, ConfirmClear} from './App.styled';
 import FaList from 'react-icons/lib/fa/list-ul';
 import FaCheckAll from 'react-icons/lib/fa/check-square';
 import FaEraser from 'react-icons/lib/fa/eraser';
+import FaUser from 'react-icons/lib/fa/user';
+import FaEdit from 'react-icons/lib/fa/edit';
+import FaGitHub from 'react-icons/lib/fa/github';
 import ToggleButton from 'react-toggle-button'
 
 const scroll = Scroll.animateScroll;
@@ -27,9 +31,11 @@ class App extends Component {
       socket_id: 'socket_id',
       logs:[],
       confirmClear: false,
-      timeoutConfirmClear: undefined
+      timeoutConfirmClear: undefined,
+      user_count: 0
     }
     socket.on('logflow', (data) => this.pushLog(data));
+    socket.on('count', (user) => this.setState({user_count: user.user_count}));
     socket.on('connect', () => this.setState({socket_id: socket.id}));
     /*let inter = setInterval(() => {
       this.pushLog(Object.assign({}, o));
@@ -145,7 +151,20 @@ class App extends Component {
   render() {
     return (
       <Frame clear={this.state.logs.length > 0} toggle={this.state.titles_show}>
-        <h1><img src={'android-icon-48x48.png'}/><span>JS.inspect()</span></h1>
+        <div className="flex-top">
+          <div className="flex-l">
+            <h1><img src={'android-icon-48x48.png'}/><span className="title">JS.inspect()</span></h1>
+          </div>
+          <div className="flex-m">
+            <ul>
+              <li><FaGitHub/> fork</li>
+              <li>how to use</li>
+            </ul>
+          </div>
+          <div className="flex-r">
+            <FaUser className="user-count"/> <span className="counter">{this.state.user_count}</span>
+          </div>
+        </div>
         <div className="inspect">
           {this.state.logs.length > 0 && this.state.logs.map((obj, i) =>
             <Inspect key={i.toString()} data={obj} click={()=> this.handleCollapsed(obj)} />
@@ -160,7 +179,7 @@ class App extends Component {
         />
         <div className="menu-bottom">
           <div>
-            <span 
+            <span
               title="copy"
               onClick={() => copy(this.state.socket_id)} className="socketid">
               {this.state.socket_id}
@@ -168,8 +187,11 @@ class App extends Component {
           </div>
           <div >
             <ul className="group-title">
+              <li>
+                <a><FaEdit/></a>
+              </li>
               <li className="toggle" onClick={() => this.setState({titles_show: !this.state.titles_show})}>
-                <FaList/> Toggle Items
+                <FaList/> <a>Toggle Items</a>
               </li>
               <li onClick={() => {
                   let all = this.state.logs.every(x => x.collapsed);
@@ -178,7 +200,7 @@ class App extends Component {
                   this.setState({logs: [...this.state.logs]});
                   this.setState({titles_list: [...this.state.titles_list]});
                 }}>
-                <FaCheckAll/> Toggle All
+                <FaCheckAll/> <a>Toggle All</a>
               </li>
               <ClearAll
                 onClick={() => {
@@ -192,12 +214,12 @@ class App extends Component {
                 }}
                 show={this.state.confirmClear}
                 >
-                <FaEraser/> Clear All
+                <FaEraser/> <a>Clear All</a>
               </ClearAll>
               <ConfirmClear
                 show={this.state.confirmClear}
                 onClick={() => this.handleClear()}>
-                Yes
+                <a>Yes</a>
               </ConfirmClear>
               <li className="none">
                 <label>
@@ -220,6 +242,7 @@ class App extends Component {
             </ul>
           </div>
         </div>
+        {/*<DialogHowToUse />*/}
       </Frame>
     );
   }

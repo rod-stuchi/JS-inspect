@@ -13,7 +13,7 @@ class ListTitle extends Component {
       {this.props.list.map((x, i) => 
         <li key={i} onClick={(e) => this.props.check(x.title) } >
           {x.checked ? <FaCheck/> : <FaUnCheck/>}
-          {x.count} - {x.title}
+          <a>{x.count} - {x.title}</a>
         </li>)}
     </ul>
     )

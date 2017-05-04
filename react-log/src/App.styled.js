@@ -9,25 +9,97 @@ const Frame = styled.div`
   margin: auto;
   padding: 10px 0;
   background-color: #d8d8d8;
-  h1 {
-    margin: 0 0 5px 0;
-    ${block}
-    font-size: 150%;
-    color: #127509;
+  .flex-top {
+    /* flex start */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    /* flex end */
     user-select: none;
-    > img {
-      border-radius: 0 0 10px 10px;
+    .flex-l {
+      /* flex start */
+      order: 0;
+      flex: 0 1 280px;
+      align-self: auto;
+      /* flex end */
+      // background: yellow;
+      h1 {
+        margin: 0 0 5px 0;
+        ${block}
+        font-size: 150%;
+        color: #127509;
+        > img {
+          border-radius: 0 0 10px 10px;
+        }
+        &:hover {
+          color: #19aa0b;
+          cursor: default;
+        }
+        > span {
+          position: relative;
+          top: -15px;
+          left: 18px;
+        }
+      }
     }
-    &:hover {
-      color: #19aa0b;
-      cursor: default;
+
+    .flex-m {
+      /* flex start */
+      order: 0;
+      flex: 1 1 auto;
+      align-self: auto;
+      /* flex end */
+      // background: yellow;
+      text-align: right;
+      svg {
+        font-size: 140%;
+      }
+      ul{
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        li {
+          &:first-child {
+            &::before {
+              content: '';
+              margin: 0 5px;
+              border: 1px solid #14760b;
+            }
+          }
+          display: inline-block;
+          font-size: 85%;
+          &::after {
+            content: '';
+            margin: 0 5px;
+            border: 1px solid #14760b;
+          }
+        }
+      }
     }
-    > span {
-      position: relative;
-      top: -15px;
-      left: 18px;
+
+    .flex-r {
+      /* flex start */
+      order: 0;
+      flex: 0 1 100px;
+      align-self: auto;
+      /* flex end */
+      // background: orange;
+      text-align: right;
+      margin: 0 16px 0 0;
+      .user-count {
+        font-size: 140%;
+        color: #585858;
+      }
+      span.counter {
+        position: relative;
+        top: 2px;
+      }
     }
   }
+
   .inspect {
     padding-bottom: ${props => props.clear ? '30px': '0px'};
   }

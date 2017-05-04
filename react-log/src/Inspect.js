@@ -98,7 +98,7 @@ class Inspect extends Component {
               }>
               <IconBookMark show={this.state.level}/>
             </BookMark>
-            {title || "Log"}
+            <a>{title || "Log"}</a>
             {collapsed ? <FaExpanded/> : "" }
             <span 
               className="copy"

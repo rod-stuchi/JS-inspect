@@ -11,6 +11,10 @@ injectGlobal`
     background-color: #d8d8d8;
     min-width: 700px;
     overflow-x: hidden;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 	}
 
 ::-webkit-scrollbar {
