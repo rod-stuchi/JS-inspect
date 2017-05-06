@@ -158,9 +158,6 @@ const Frame = styled.div`
         padding: 0;
         list-style-type: none;
         white-space: nowrap;
-        > li.toggle {
-          background: ${props => props.toggle ? '#595959' : '#7e7e7e'};
-        }
         > li {
           background: #7e7e7e;
           border-radius: 2px;
@@ -181,17 +178,6 @@ const Frame = styled.div`
           }
           &:active {
             box-shadow: -1px -1px 6px 0px rgba(0,0,0,0.75);
-          }
-        }
-        > li.none {
-          background: none;
-          box-shadow: none;
-          margin: 0;
-          > label {
-            div {
-              display: table-cell;
-              margin: 0 3px;
-            }
           }
         }
       }
@@ -228,4 +214,8 @@ const ConfirmClear = styled.li`
   display: ${ props => props.show ? 'inline-block !important;': 'none !important;' };
 `;
 
-export {Frame, ClearAll, ConfirmClear }
+const LiState = styled.li`
+  background: ${props => props.toggle ? '#595959' : '#7e7e7e'} !important;
+`;
+
+export {Frame, ClearAll, ConfirmClear, LiState }

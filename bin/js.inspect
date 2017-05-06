@@ -89,12 +89,10 @@ io.on('connection', function (socket) {
       sockets.splice(idx, 1);
     }
 
-    log(users);
     let uidx = users.findIndex(f => f.socket_id === socket.conn.id);
     if (uidx >= 0) {
       users.splice(uidx, 1);
     }
-    log(users);
 
     log(gray(' ✘ ') + socket.conn.id + "\n");
     log(yellowB(' ❴ ') + sockets.map(x => x.conn.id).join(',\n   ') + yellowB(' ❵\n'));

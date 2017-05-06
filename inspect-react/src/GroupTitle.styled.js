@@ -31,12 +31,12 @@ const Titles = styled.div`
   border-radius: 10px 10px 0 0;
   bottom: 35px;
   box-shadow: 0px -2px 16px 0px rgba(0,0,0,0.75);
-  margin-left: ${props => (props.length_socket_id * 8) + (props.isFirefox ? 35 : 53)}px;
+  margin-left: 150px;
   opacity: 50%;
   padding: 5px 5px 10px;
   position: fixed;
   visibility: ${props => props.titles_show ? 'visible' : 'hidden' };
-  width: ${props => `calc(100vw - 15vw - ${(props.length_socket_id * 8) + 45}px)`};
+  width: calc(100vw - 300px);
   z-index: 0;
   max-height: calc(100vh - 60px);
   overflow: auto;

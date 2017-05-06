@@ -6,20 +6,20 @@ import io from 'socket.io-client'
 import copy from './copyText';
 import Inspect from './Inspect'
 import GroupTitle from './GroupTitle';
-import {Frame, ClearAll, ConfirmClear} from './App.styled';
+import GroupConfiguration from './GroupConfiguration';
+import {Frame, ClearAll, ConfirmClear, LiState} from './App.styled';
 import FaList from 'react-icons/lib/fa/list-ul';
 import FaCheckAll from 'react-icons/lib/fa/check-square';
 import FaEraser from 'react-icons/lib/fa/eraser';
 import FaUser from 'react-icons/lib/fa/user';
-import FaEdit from 'react-icons/lib/fa/edit';
 import FaGitHub from 'react-icons/lib/fa/github';
-import ToggleButton from 'react-toggle-button'
+import GoGear from 'react-icons/lib/go/gear';
 
 const scroll = Scroll.animateScroll;
 let socket_id = undefined;
 
-const socket = io();
-// let o = {title: "ae ae ae ae ooooooooooo", obj: { id: 1, name : "braca", age: "-41" }}
+// const socket = io();
+let o = {title: "ae ae ae ae ooooooooooo", obj: { id: 1, name : "braca", age: "-41" }}
 
 class App extends Component {
   constructor(props) {
@@ -32,12 +32,13 @@ class App extends Component {
       logs:[],
       confirmClear: false,
       timeoutConfirmClear: undefined,
-      user_count: 0
+      user_count: 0,
+      configs_show: false
     }
-    socket.on('logflow', (data) => this.pushLog(data));
-    socket.on('count', (user) => this.setState({user_count: user.user_count}));
-    socket.on('connect', () => this.setState({socket_id: socket.id}));
-    /*let inter = setInterval(() => {
+    // socket.on('inspect', (data) => this.pushLog(data));
+    // socket.on('count', (user) => this.setState({user_count: user.user_count}));
+    // socket.on('connect', () => this.setState({socket_id: socket.id}));
+    let inter = setInterval(() => {
       this.pushLog(Object.assign({}, o));
       if (this.state.logs[0].count === 6) {
         o.title = "aaaaaaaaaaaa bbbbbb";
@@ -67,7 +68,7 @@ class App extends Component {
       if (this.state.logs.length > 7) {
         clearInterval(inter);
       }
-    }, 100);*/
+    }, 100);
   }
 
   setTitleList() {
@@ -113,6 +114,10 @@ class App extends Component {
     this.setState({titles_show: event});
   }
 
+  handleChange_configs_show(event) {
+    this.setState({configs_show: event});
+  }
+
   handleChange_titles_list(event) {
     let t = this.state.titles_list.filter(x => x.title === event)[0];
     if (t) {
@@ -150,7 +155,8 @@ class App extends Component {
 
   render() {
     return (
-      <Frame clear={this.state.logs.length > 0} toggle={this.state.titles_show}>
+      <Frame 
+        clear={this.state.logs.length > 0}>
         <div className="flex-top">
           <div className="flex-l">
             <h1><img src={'android-icon-48x48.png'}/><span className="title">JS.inspect()</span></h1>
@@ -170,12 +176,15 @@ class App extends Component {
             <Inspect key={i.toString()} data={obj} click={()=> this.handleCollapsed(obj)} />
           )}
         </div>
+        <GroupConfiguration
+          show={this.state.configs_show}
+          handleShow={(e) => this.handleChange_configs_show(e)}
+        />
         <GroupTitle
           handleShow={(e) => this.handleChange_titles_show(e)}
           handleList={(e) => this.handleChange_titles_list(e)}
           show={this.state.titles_show}
           titles={this.state.titles_list}
-          length_socket_id={this.state.socket_id.length}
         />
         <div className="menu-bottom">
           <div>
@@ -187,12 +196,16 @@ class App extends Component {
           </div>
           <div >
             <ul className="group-title">
-              <li>
-                <a><FaEdit/></a>
-              </li>
-              <li className="toggle" onClick={() => this.setState({titles_show: !this.state.titles_show})}>
-                <FaList/> <a>Toggle Items</a>
-              </li>
+              <LiState
+                toggle={this.state.configs_show}
+                onClick={() => this.setState({configs_show: !this.state.configs_show, titles_show: false})}>
+                <a><GoGear/> Config</a>
+              </LiState>
+              <LiState 
+                toggle={this.state.titles_show}
+                onClick={() => this.setState({titles_show: !this.state.titles_show, configs_show: false})}>
+                <a><FaList/> Toggle Items</a>
+              </LiState>
               <li onClick={() => {
                   let all = this.state.logs.every(x => x.collapsed);
                   this.state.logs.map(x => x.collapsed = !all);
@@ -200,7 +213,7 @@ class App extends Component {
                   this.setState({logs: [...this.state.logs]});
                   this.setState({titles_list: [...this.state.titles_list]});
                 }}>
-                <FaCheckAll/> <a>Toggle All</a>
+                <a><FaCheckAll/> Toggle All</a>
               </li>
               <ClearAll
                 onClick={() => {
@@ -214,31 +227,13 @@ class App extends Component {
                 }}
                 show={this.state.confirmClear}
                 >
-                <FaEraser/> <a>Clear All</a>
+                <a><FaEraser/> Clear All</a>
               </ClearAll>
               <ConfirmClear
                 show={this.state.confirmClear}
                 onClick={() => this.handleClear()}>
                 <a>Yes</a>
               </ConfirmClear>
-              <li className="none">
-                <label>
-                      <div>
-                        Expanded
-                      </div>
-                      <div>
-                        <ToggleButton
-                          colors={{
-                            active: { base: 'rgb(18, 117, 9)' }
-                          }}
-                          value={ !this.state.collapsed || false }
-                          onToggle={(value) => 
-                            this.setState({ collapsed: !this.state.collapsed })
-                          }
-                        />
-                      </div>
-                  </label>
-              </li>
             </ul>
           </div>
         </div>

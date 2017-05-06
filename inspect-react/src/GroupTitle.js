@@ -31,10 +31,7 @@ class GroupTitle extends Component {
   render () {
     return (
       <Titles
-        className="titles"
         titles_show={this.props.show}
-        length_socket_id={this.props.length_socket_id}
-        isFirefox={/Firefox/.test(navigator.userAgent)}
         onMouseEnter={() => clearTimeout(this.state.titles_leave_state)}
         onMouseLeave={() =>
           this.setState({titles_leave_state: setTimeout(() => {
