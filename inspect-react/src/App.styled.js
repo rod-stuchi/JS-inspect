@@ -29,7 +29,7 @@ const Frame = styled.div`
       h1 {
         margin: 0 0 5px 0;
         ${block}
-        font-size: 150%;
+        font-size: 140%;
         color: #127509;
         > img {
           border-radius: 0 0 10px 10px;
@@ -40,8 +40,8 @@ const Frame = styled.div`
         }
         > span {
           position: relative;
-          top: -15px;
-          left: 18px;
+          top: -11px;
+          left: 15px;
         }
       }
     }

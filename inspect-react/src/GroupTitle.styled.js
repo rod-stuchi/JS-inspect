@@ -26,7 +26,7 @@ const animeLeave = keyframes`
 `;
 
 const Titles = styled.div`
-  animation: ${props => props.titles_show ? `${animeEnter} 0.2s ease-in normal 1` : `${animeLeave} 0.2s ease-in`};
+  animation: ${props => props.titles_show ? `${animeEnter} 0.15s ease-in normal 1` : `${animeLeave} 0.15s ease-in`};
   background: #cecece;
   border-radius: 10px 10px 0 0;
   bottom: 35px;

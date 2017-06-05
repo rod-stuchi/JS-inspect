@@ -26,17 +26,17 @@ const animeLeave = keyframes`
 `;
 
 const Configs = styled.div`
-  animation: ${props => props.configs_show ? `${animeEnter} 0.2s ease-in normal 1` : `${animeLeave} 0.2s ease-in`};
+  animation: ${props => props.configs_show ? `${animeEnter} 0.15s ease-in normal 1` : `${animeLeave} 0.15s ease-in`};
   background: #cecece;
   border-radius: 10px 10px 0 0;
   bottom: 35px;
   box-shadow: 0px -2px 16px 0px rgba(0,0,0,0.75);
-  margin-left: 150px;
+  margin-left: 100px;
   opacity: 50%;
   padding: 15px 15px;
   position: fixed;
   visibility: ${props => props.configs_show ? 'visible' : 'hidden' };
-  width: calc(100vw - 300px);
+  width: 400px; //calc(100vw - 300px);
   z-index: 0;
   max-height: calc(100vh - 60px);
   overflow: auto;
@@ -47,8 +47,8 @@ const Configs = styled.div`
     padding: 0;
     user-select: none;
     li {
-      div {
-        max-width: 160px;
+      div.toggle {
+        max-width: 190px;
       }
       svg {
         font-size: 1.6em;
@@ -69,14 +69,14 @@ const Configs = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-content: stretch;
     align-items: flex-start;
   }
 
   .flex-item:nth-child(1) {
     order: 0;
-    flex: 0 1 auto;
+    flex: 0 1 160px;
     align-self: auto;
   }
 
@@ -84,8 +84,11 @@ const Configs = styled.div`
     order: 0;
     flex: 0 1 auto;
     align-self: auto;
-    margin-right: 6px;
   }
 `;
 
-export default Configs;
+const SpanEdit = styled.span`
+  color: #127509;
+`;
+
+export { Configs, SpanEdit };

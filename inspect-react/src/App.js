@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import DialogHowToUse from './Dialog-HowToUse';
-import Scroll from 'react-scroll';
-import sha1 from 'sha1';
-import io from 'socket.io-client'
-import copy from './copyText';
-import Inspect from './Inspect'
-import GroupTitle from './GroupTitle';
-import GroupConfiguration from './GroupConfiguration';
-import {Frame, ClearAll, ConfirmClear, LiState} from './App.styled';
-import FaList from 'react-icons/lib/fa/list-ul';
-import FaCheckAll from 'react-icons/lib/fa/check-square';
-import FaEraser from 'react-icons/lib/fa/eraser';
-import FaUser from 'react-icons/lib/fa/user';
-import FaGitHub from 'react-icons/lib/fa/github';
-import GoGear from 'react-icons/lib/go/gear';
+// Imports
+  import React, { Component } from 'react';
+  import DialogHowToUse from './Dialog-HowToUse';
+  import Scroll from 'react-scroll';
+  import sha1 from 'sha1';
+  import io from 'socket.io-client'
+  import copy from './copyText';
+  import Inspect from './Inspect'
+  import GroupTitle from './GroupTitle';
+  import GroupConfiguration from './GroupConfiguration';
+  import {Frame, ClearAll, ConfirmClear, LiState} from './App.styled';
+  import FaList from 'react-icons/lib/fa/list-ul';
+  import FaCheckAll from 'react-icons/lib/fa/check-square';
+  import FaEraser from 'react-icons/lib/fa/eraser';
+  import FaUser from 'react-icons/lib/fa/user';
+  import FaGitHub from 'react-icons/lib/fa/github';
+  import GoGear from 'react-icons/lib/go/gear';
 
 const scroll = Scroll.animateScroll;
 let socket_id = undefined;
@@ -110,7 +111,7 @@ class App extends Component {
     scroll.scrollToBottom();
   }
 
-  handleChange_titles_show(event) {
+  randleChange_titles_show(event) {
     this.setState({titles_show: event});
   }
 
@@ -159,7 +160,7 @@ class App extends Component {
         clear={this.state.logs.length > 0}>
         <div className="flex-top">
           <div className="flex-l">
-            <h1><img src={'android-icon-48x48.png'}/><span className="title">JS.inspect()</span></h1>
+            <h1><img src={'android-icon-36x36.png'}/><span className="title">JS.inspect()</span></h1>
           </div>
           <div className="flex-m">
             <ul>
@@ -176,16 +177,19 @@ class App extends Component {
             <Inspect key={i.toString()} data={obj} click={()=> this.handleCollapsed(obj)} />
           )}
         </div>
+
         <GroupConfiguration
           show={this.state.configs_show}
           handleShow={(e) => this.handleChange_configs_show(e)}
         />
+
         <GroupTitle
           handleShow={(e) => this.handleChange_titles_show(e)}
           handleList={(e) => this.handleChange_titles_list(e)}
           show={this.state.titles_show}
           titles={this.state.titles_list}
         />
+        
         <div className="menu-bottom">
           <div>
             <span
