@@ -29,7 +29,7 @@ class App extends Component {
       confirmClear: false,
       timeoutConfirmClear: undefined
     }
-    socket.on('logflow', (data) => this.pushLog(data));
+    socket.on('inspect', (data) => this.pushLog(data));
     socket.on('connect', () => this.setState({socket_id: socket.id}));
     /*let inter = setInterval(() => {
       this.pushLog(Object.assign({}, o));
