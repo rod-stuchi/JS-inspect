@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/js.inspect.svg)](https://badge.fury.io/js/js.inspect)
+
 # Why JS.inspect()?
 
 ## JS.inspect was made to help inspect objects, strings, sql queries in any system that runs javascript when Debug is not available or is too much intrusive.
@@ -8,7 +10,7 @@
  - NativeScript
 
 ## Demo
-![JS.inspect Demo](docs/js-inspect-demo.gif)
+![JS.inspect Demo](https://raw.githubusercontent.com/rod-stuchi/JS-inspect/master/docs/js-inspect-demo.gif)
 
 # How to install?
 
@@ -36,7 +38,7 @@
 	]
 }
 ```
-![Result 01](docs/image01.png)
+![Result 01](https://raw.githubusercontent.com/rod-stuchi/JS-inspect/master/docs/image01.png)
 
 **body** application/json
 ```json
@@ -48,6 +50,6 @@
 }
 ```
 
-![Result 02](docs/image02.png)
+![Result 02](https://raw.githubusercontent.com/rod-stuchi/JS-inspect/master/docs/image02.png)
 
 [Demo YouTube](https://www.youtube.com/watch?v=Cl-B5XdSCIY)
