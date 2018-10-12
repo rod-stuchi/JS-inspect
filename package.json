@@ -1,15 +1,16 @@
 {
   "name": "js.inspect",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Inspect JS object in browser in any system that runs Javascript",
   "keywords": [
-    "inspect",
-    "object",
-    "debug",
-    "react-native",
-    "ReactNative",
     "console.log",
-    "log"
+    "debugger",
+    "dev-tool",
+    "inspect",
+    "log",
+    "object",
+    "react-native",
+    "ReactNative"
   ],
   "main": "js.inspect",
   "bin": {
@@ -20,6 +21,10 @@
   },
   "scripts": {
     "inspect": "js.inspect"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/rod-stuchi/JS-inspect"
   },
   "author": "Rodrigo Stuchi <rod.stuchi@gmail.com> (http://twitter.com/stuchi)",
   "license": "MIT",
