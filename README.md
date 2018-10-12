@@ -18,37 +18,95 @@
     npm i -g js.inspect
 
 # Usage
- 
-**POST**
 
-    http://localhost:8080/inspect
+make a folder somewhere in your machine
 
-**body** application/json
-```json
-{
-	"socket_id": "4JLn0IALS0J_sk-2AAAB",
-	"title": "Random Object List",
-	"lang": "", 
-	"obj": [
-		{"id": 1, "name": "AAAAA"},
-		{"id": 2, "name": "BBBBBB"},
-		{"id": 3, "name": "CCCCCCC"},
-		{"id": 4, "name": "DDDDDDD", "age": 20 },
-		{"id": 4, "age": 33 }
-	]
-}
+```console
+mkdir inspect
+cd inspect
+touch index.js
 ```
+
+1. put in `index.js` file this content:
+
+```text
+const mkBody = (socket_id, title, obj, sql) => ({
+  socket_id,
+  title,
+  lang: (sql ? "sql" : ""),
+  obj,
+});
+
+const inspect = (id, title, obj, sql = false) => {
+  const body = mkBody(id, title, obj, sql);
+  fetch("http://{your_machine_ip}:8080/inspect", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body)
+  });
+  return false;
+}
+
+module.exports = inspect;
+```
+
+2. replace `{your_machine_ip}` by your IP address, save the file.
+
+3. still in same folder that has `index.js`, run:
+
+```console
+yarn link
+```
+ 
+4. to use in another project, inside its folder, run:
+
+```console
+yarn link inspect
+```
+
+5. if the project is **React Native**, usage:
+
+```javascript
+  require("inspect")("{ID}", "title", obj);
+```
+
+6. if the project is **Node**, usage:
+```console
+yarn add node-fetch
+```
+
+```javascript
+  const fetch = require("node-fetch");
+  require("inspect")("{ID}", "title", obj);
+```
+
+**Exemples**
+
+**An object like this**
+
+```javascript
+  const obj = [
+    {"id": 1, "name": "AAAAA"},
+    {"id": 2, "name": "BBBBBB"},
+    {"id": 3, "name": "CCCCCCC"},
+    {"id": 4, "name": "DDDDDDD", "age": 20 },
+    {"id": 4, "age": 33 }
+  ];
+
+  require("inspect")("04DF2iK4ghiAjqtaAAAA", "Random Object List", obj);
+```
+**Will be represented as**
+
 ![Result 01](https://raw.githubusercontent.com/rod-stuchi/JS-inspect/master/docs/image01.png)
 
-**body** application/json
-```json
-{
-	"socket_id": "04DF2iK4ghiAjqtaAAAA",
-	"title": "SQL formatted",
-	"lang": "sql", 
-	"obj": "select id, name, age from table_name where id > 5 and id < 9"
-}
+**String SQL Query**
+
+```javascript
+  const query = "select id, name, age from table_name where id > 5 and id < 9";
+  require("inspect")("04DF2iK4ghiAjqtaAAAA", "SQL formatted", query, true);
 ```
+
+**will be represented as**
 
 ![Result 02](https://raw.githubusercontent.com/rod-stuchi/JS-inspect/master/docs/image02.png)
 
