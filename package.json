@@ -1,6 +1,6 @@
 {
   "name": "js.inspect",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "Inspect JS object in browser in any system that runs Javascript",
   "keywords": [
     "console.log",

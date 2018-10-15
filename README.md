@@ -24,10 +24,20 @@ make a folder somewhere in your machine
 ```console
 mkdir inspect
 cd inspect
-touch index.js
+touch index.js package.json
 ```
 
-1. put in `index.js` file this content:
+1. put in `package.json` file this:
+```text
+{
+  "name": "inspect",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}
+```
+
+2. put in `index.js` file this content:
 
 ```text
 const mkBody = (socket_id, title, obj, sql) => ({
@@ -50,27 +60,27 @@ const inspect = (id, title, obj, sql = false) => {
 module.exports = inspect;
 ```
 
-2. replace `{your_machine_ip}` by your IP address, save the file.
+3. replace `{your_machine_ip}` by your IP address, save the file.
 
-3. still in same folder that has `index.js`, run:
+4. still in same folder that has `index.js`, run:
 
 ```console
 yarn link
 ```
  
-4. to use in another project, inside its folder, run:
+5. to use in another project, inside its folder, run:
 
 ```console
 yarn link inspect
 ```
 
-5. if the project is **React Native**, usage:
+6. if the project is **React Native**, usage:
 
 ```javascript
   require("inspect")("{ID}", "title", obj);
 ```
 
-6. if the project is **Node**, usage:
+7. if the project is **Node**, usage:
 ```console
 yarn add node-fetch
 ```
